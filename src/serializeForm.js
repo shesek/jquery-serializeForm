@@ -24,7 +24,7 @@
       }
 
       // data[a][b] becomes [ data, a, b ]
-      var named = this.name.replace(/\[([^\]]+)?\]/g, ',$1').split(',');
+      var named = this.name.split('.');
       var cap = named.length - 1;
       var $el = $( this );
 
