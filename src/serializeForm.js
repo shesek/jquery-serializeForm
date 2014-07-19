@@ -23,7 +23,7 @@
         return;
       }
 
-      // data[a][b] becomes [ data, a, b ]
+      // data.a.b becomes [ data, a, b ]
       var named = this.name.split('.');
       var cap = named.length - 1;
       var $el = $( this );
@@ -32,15 +32,17 @@
       if ( named[ 0 ] ) {
         for ( var i = 0; i < cap; i++ ) {
           // move down the tree - create objects or array if necessary
-          lookup = lookup[ named[i] ] = lookup[ named[i] ] ||
-            ( (named[ i + 1 ] === "" || named[ i + 1 ] === '0') ? [] : {} );
+          lookup = lookup[ named[i] ] = lookup[ named[i] ] || {};
         }
 
+        var last = named[cap];
+
         // at the end, push or assign the value
-        if ( lookup.length !==  undefined ) {
-          lookup.push( $el.val() );
-        }else {
-          lookup[ named[ cap ] ]  = $el.val();
+        if (lookup[last]) {
+          Array.isArray(lookup[last]) || (lookup[last] = [lookup[last]]);
+          lookup[last].push($el.val());
+        } else {
+          lookup[last]  = $el.val();
         }
 
         // assign the reference back to root
